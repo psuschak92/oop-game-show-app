@@ -1,19 +1,22 @@
 class Game {
     constructor() {
         this.missed = 0;
-        // populate this array
-        this.phrases = [new Phrase('donut'),new Phrase('hi there'),new Phrase('hole in one')];
+        this.phrases = [];
         this.activePhrase = null;
     }
 
     startGame() {
         document.getElementById('overlay').style.display = 'none';
-        this.activePhrase = this.getRandomPhrase();
+        this.activePhrase = this.randomPhrase;
         this.activePhrase.addPhraseToDisplay();
     }
 
-    getRandomPhrase() {
+    get randomPhrase() {
         return this.phrases[Math.floor(Math.random() * this.phrases.length)];
+    }
+
+    addPhrase(phrase) {
+        this.phrases.push(phrase);
     }
 
     handleInteraction(button) {
@@ -55,7 +58,38 @@ class Game {
         const overlay = document.getElementById('overlay');
         overlay.style.removeProperty('display');
         const title = overlay.querySelector('h2');
-        title.textContent = this.activePhrase.phrase;
+        if (result === 'lose') {
+            const ul = document.querySelector('#phrase ul');
+            const phrase = ul.children;
+            title.textContent = '';
+            for (let i = 0; i < phrase.length; i++) {
+                const span = document.createElement('span');
+                if (phrase[i].classList.contains('hide')) {
+                    span.style.display = 'inline-block';
+                    span.classList.add('hop');
+                }
+                span.textContent = phrase[i].textContent === ' ' ? ' ': phrase[i].textContent;
+                title.appendChild(span);
+            }
+        } else {
+            const ul = document.querySelector('#phrase ul');
+            const phrase = ul.children;
+            title.textContent = '';
+            let delay = 0;
+            for (let i = 0; i < phrase.length; i++) {
+                const span = document.createElement('span');
+                delay += .05;
+                if (phrase[i].textContent === ' ') {
+                    span.textContent = ' ';
+                } else {
+                    span.style.animation = 'wave .6s';
+                    span.style.animationDelay = `${delay}s`;
+                    span.style.display = 'inline-block';
+                    span.textContent = phrase[i].textContent;
+                }
+                title.appendChild(span);
+            }
+        }
         const gameOverMessage = overlay.querySelector('h1');
         gameOverMessage.textContent = message;
         overlay.classList.remove('start');
@@ -65,6 +99,7 @@ class Game {
             overlay.classList.remove('win');
         }
         overlay.classList.add(result);
+        overlay.classList.add('disable-keys');
         this.resetGame();
     }
 

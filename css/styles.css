@@ -202,3 +202,35 @@ button {
 .lose a {
   color: var(--color-lose);
 }
+
+@keyframes hop {
+  0% {
+      transform: translateY(0px) rotateY(0deg);
+      color: white;
+    }
+  50% {
+    transform: translateY(-20px) rotateY(360deg);
+    color: white;
+  }
+  100% {
+    transform: translateY(0px) rotateY(360deg);
+    color: #E00202;
+  }
+}
+
+@keyframes wave {
+  0% {
+      transform: translateY(0px);
+    }
+  50% {
+    transform: translateY(-25px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.hop {
+  animation: hop 2s ease-out;
+  color: #E00202;
+}

@@ -1,7 +1,13 @@
 class Game {
     constructor() {
         this.missed = 0;
-        this.phrases = [];
+        this.phrases = [
+            new Phrase('Better late than never'),
+            new Phrase('Bite the bullet'),
+            new Phrase('Break a leg'),
+            new Phrase('Hit the sack'),
+            new Phrase('Speak of the devil')
+        ];
         this.activePhrase = null;
     }
 
@@ -63,20 +69,7 @@ class Game {
         const phrase = ul.children;
         title.textContent = '';
         // the phrase is displayed to user and animated differently based on outcome
-        if (result === 'lose') {
-            // player gets a fun animation even though they lose
-            for (let i = 0; i < phrase.length; i++) {
-                // each letter must be placed in a span element
-                const span = document.createElement('span');
-                if (phrase[i].classList.contains('hide')) {
-                    span.style.display = 'inline-block';
-                    // the hop class will provide animation for each missing letter
-                    span.classList.add('hop');
-                }
-                span.textContent = phrase[i].textContent === ' ' ? ' ': phrase[i].textContent;
-                title.appendChild(span);
-            }
-        } else {
+        if (result === 'win') {
             // player gets animation for guessing phrase correctly
             let delay = 0;
             for (let i = 0; i < phrase.length; i++) {
@@ -92,6 +85,19 @@ class Game {
                     span.style.display = 'inline-block';
                     span.textContent = phrase[i].textContent;
                 }
+                title.appendChild(span);
+            }
+        } else {
+            // player gets animation even though they lose
+            for (let i = 0; i < phrase.length; i++) {
+                // each letter must be placed in a span element
+                const span = document.createElement('span');
+                if (phrase[i].classList.contains('hide')) {
+                    span.style.display = 'inline-block';
+                    // the hop class will provide animation for each missing letter
+                    span.classList.add('hop');
+                }
+                span.textContent = phrase[i].textContent === ' ' ? ' ': phrase[i].textContent;
                 title.appendChild(span);
             }
         }

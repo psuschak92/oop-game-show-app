@@ -14,7 +14,7 @@ class Game {
     get randomPhrase() {
         return this.phrases[Math.floor(Math.random() * this.phrases.length)];
     }
-
+    // add new phrases to list
     addPhrase(phrase) {
         this.phrases.push(phrase);
     }
@@ -24,7 +24,7 @@ class Game {
         if (this.activePhrase.checkLetter(button.textContent)) {
             button.classList.add('chosen');
             this.activePhrase.showMatchedLetter(button.textContent);
-            if (!this.checkForWin()) {
+            if (this.checkForWin()) {
                 this.gameOver('You guessed the correct phrase!', 'win');
             }
         } else {
@@ -39,7 +39,7 @@ class Game {
             for (let i = 0; i < hearts.length; i++) {
                 const heart = hearts[i];
                 if (heart.src.includes('images/liveHeart.png')) {
-                    // only change one element at a time
+                    // only change one element at a time and change first element that meets condition
                     heart.src = 'images/lostHeart.png';
                     break;
                 }
@@ -49,41 +49,46 @@ class Game {
             this.gameOver('You ran out of guesses!', 'lose');
         }
     }
-
+    // player wins if list returns empty
     checkForWin() {
-        return document.getElementsByClassName('hide').length > 0 ? true : false;
+        return document.getElementsByClassName('hide').length > 0 ? false : true;
     }
 
     gameOver(message, result) {
+        // elements for game over screen
         const overlay = document.getElementById('overlay');
         overlay.style.removeProperty('display');
         const title = overlay.querySelector('h2');
+        const ul = document.querySelector('#phrase ul');
+        const phrase = ul.children;
+        title.textContent = '';
+        // the phrase is displayed to user and animated differently based on outcome
         if (result === 'lose') {
-            const ul = document.querySelector('#phrase ul');
-            const phrase = ul.children;
-            title.textContent = '';
+            // player gets a fun animation even though they lose
             for (let i = 0; i < phrase.length; i++) {
+                // each letter must be placed in a span element
                 const span = document.createElement('span');
                 if (phrase[i].classList.contains('hide')) {
                     span.style.display = 'inline-block';
+                    // the hop class will provide animation for each missing letter
                     span.classList.add('hop');
                 }
                 span.textContent = phrase[i].textContent === ' ' ? ' ': phrase[i].textContent;
                 title.appendChild(span);
             }
         } else {
-            const ul = document.querySelector('#phrase ul');
-            const phrase = ul.children;
-            title.textContent = '';
+            // player gets animation for guessing phrase correctly
             let delay = 0;
             for (let i = 0; i < phrase.length; i++) {
                 const span = document.createElement('span');
-                delay += .05;
                 if (phrase[i].textContent === ' ') {
                     span.textContent = ' ';
                 } else {
-                    span.style.animation = 'wave .6s';
+                    // each letter will be animated to create a wave effect
+                    span.style.animation = 'wave .5s';
                     span.style.animationDelay = `${delay}s`;
+                    // increment the animation delay
+                    delay += .03;
                     span.style.display = 'inline-block';
                     span.textContent = phrase[i].textContent;
                 }
@@ -99,10 +104,11 @@ class Game {
             overlay.classList.remove('win');
         }
         overlay.classList.add(result);
+        // do not execute handleInteraction function if key is pressed on game over screen
         overlay.classList.add('disable-keys');
         this.resetGame();
     }
-
+    // remove all css classes and html 
     resetGame() {
         const ul = document.querySelector('#phrase ul');
         ul.innerHTML = '';

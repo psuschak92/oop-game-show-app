@@ -78,10 +78,10 @@ class Game {
                     span.textContent = ' ';
                 } else {
                     // each letter will be animated to create a wave effect
-                    span.style.animation = 'wave .5s';
+                    span.style.animation = 'wave .4s';
                     span.style.animationDelay = `${delay}s`;
                     // increment the animation delay
-                    delay += .03;
+                    delay += .04;
                     span.style.display = 'inline-block';
                     span.textContent = phrase[i].textContent;
                 }

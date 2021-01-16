@@ -2,10 +2,7 @@
 const game = new Game();
 game.addPhrase(new Phrase('Under the weather'));
 game.addPhrase(new Phrase('Easy does it'));
-game.addPhrase(new Phrase('Bazooka'));
-game.addPhrase(new Phrase('Bedazzle'));
 game.addPhrase(new Phrase('Long live the queen'));
-game.addPhrase(new Phrase('Xylophone'));
 
 const start = document.getElementById('btn__reset');
 start.addEventListener('click', () => {

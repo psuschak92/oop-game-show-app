@@ -20,7 +20,7 @@ class Phrase {
             }
         }
     }
-    // only needs to check if phrase contains one guessed letter
+    // only need to check if phrase contains one guessed letter
     checkLetter(letter) {
         return this.phrase.includes(letter);
     }

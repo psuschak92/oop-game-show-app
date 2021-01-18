@@ -73,6 +73,7 @@ class Game {
             // player gets animation for guessing phrase correctly
             let delay = 0;
             for (let i = 0; i < phrase.length; i++) {
+                // each letter must be placed in a span element
                 const span = document.createElement('span');
                 if (phrase[i].textContent === ' ') {
                     span.textContent = ' ';
@@ -90,7 +91,6 @@ class Game {
         } else {
             // player gets animation even though they lose
             for (let i = 0; i < phrase.length; i++) {
-                // each letter must be placed in a span element
                 const span = document.createElement('span');
                 if (phrase[i].classList.contains('hide')) {
                     span.style.display = 'inline-block';

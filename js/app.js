@@ -24,7 +24,7 @@ const buttons = document.querySelectorAll('.keyrow button');
 // listen for keystroke on body element
 const body = document.querySelector('body');
 body.addEventListener('keydown', event => {
-    // handleInteraction can still get called after the game is over unless overlay has the following class
+    // the disable-keys class prevents handleInteraction from firing after the game is over
     const disableKeys = document.getElementById('overlay').classList.contains('disable-keys');
     buttons.forEach(button => {
         // only accept enabled alpha keys when game is in play
